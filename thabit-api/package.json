@@ -1,0 +1,35 @@
+{
+  "name": "thabit-api",
+  "version": "0.0.1",
+  "description": "Thabit backend Restful api",
+  "main": "api.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/berlotto/thabit.git"
+  },
+  "keywords": [
+    "restful",
+    "api",
+    "nodejs",
+    "express",
+    "mongodb"
+  ],
+  "author": "Sergio Berlotto <sergio.berlotto@gmail.com>",
+  "license": "AGPLv3",
+  "bugs": {
+    "url": "https://github.com/berlotto/thabit/issues"
+  },
+  "homepage": "https://github.com/berlotto/thabit",
+  "dependencies": {
+    "body-parser": "^1.9.2",
+    "bson": "^0.2.15",
+    "express": "^4.10.1",
+    "mongoose": "^3.8.18",
+    "mongoose-delete": "^0.1.1",
+    "mongoose-updated_at": "0.0.2",
+    "validator": "^3.22.1"
+  }
+}
