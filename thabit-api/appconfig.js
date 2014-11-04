@@ -1,7 +1,7 @@
 
-var express = require('express');
-var app = module.exports = express();
-var bodyParser = require('body-parser');
+var express = require('express')
+  , app = module.exports = express()
+  , bodyParser = require('body-parser');
 
 var allowCors = function(req, res, next) {
 	res.header('Access-Control-Allow-Origin', '127.0.0.1:5000');
