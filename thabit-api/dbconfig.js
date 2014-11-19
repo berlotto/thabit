@@ -1,5 +1,5 @@
 
-var db_string= 'mongodb://127.0.0.1/thabit'
+var db_string= 'mongodb://meuservidor.com/thabit'
   , mongoose = require('mongoose').connect(db_string)
   , db = mongoose.connection;
 
@@ -7,6 +7,7 @@ var db_string= 'mongodb://127.0.0.1/thabit'
  Plugins used for Mongoose:
  - https://www.npmjs.org/package/mongoose-delete
  - https://www.npmjs.org/package/mongoose-updated_at
+ - https://www.npmjs.org/package/bcrypt-nodejs
  */
 
 db.on('error', console.error.bind(console, 'Erro ao conectar no banco'));
@@ -15,6 +16,18 @@ db.once('open', function() {
 	var soft_delete = require('mongoose-delete');
 	var updatedTimestamp = require('mongoose-updated_at');
 
+	/* === CLIENT ===*/
+
+	var clientSchema = mongoose.Schema({
+		identifier: String,
+		lastToken: String,
+		ip: String,
+		createdAt: {type: Date, default: Date.now},
+		updatedAt: {type: Date, default: Date.now},
+	});
+	clientSchema.plugin(soft_delete, { deletedAt : true });
+	clientSchema.plugin(updatedTimestamp);
+	exports.Client = mongoose.model('Client', clientSchema);
 	/* === FRAME ===*/
 	
 	var frameSchema = mongoose.Schema({
@@ -22,6 +35,7 @@ db.once('open', function() {
 		owner: mongoose.Schema.Types.ObjectId,
 		createdAt: {type: Date, default: Date.now},
 		updatedAt: {type: Date, default: Date.now},
+		client: {type: mongoose.Schema.Types.ObjectId, ref:'Client'},
 		fields:[{
 			field: mongoose.Schema.Types.ObjectId,
 			order: Number,
@@ -42,7 +56,8 @@ db.once('open', function() {
 		type: String,
 		size: Number,
 		frame_id: mongoose.Schema.Types.ObjectId,
-		reg_exp_validation: String
+		reg_exp_validation: String,
+		client: {type: mongoose.Schema.Types.ObjectId, ref:'Client'},
 	});
 	fieldSchema.plugin(soft_delete, { deletedAt : true, deletedBy : true });
 	fieldSchema.plugin(updatedTimestamp);
@@ -58,8 +73,8 @@ db.once('open', function() {
 		data:[{
 			field_id: mongoose.Schema.Types.ObjectId,
 			data: mongoose.Schema.Types.Mixed
-		}]
-
+		}],
+		client: {type: mongoose.Schema.Types.ObjectId, ref:'Client'},
 	});
 	dataSchema.plugin(soft_delete, { deletedAt : true, deletedBy : true });
 	dataSchema.plugin(updatedTimestamp);
@@ -78,7 +93,8 @@ db.once('open', function() {
 			data_delete: Boolean,
 			frame_configure: Boolean,
 			frame_id: mongoose.Schema.Types.ObjectId,
-		}]
+		}],
+		client: {type: mongoose.Schema.Types.ObjectId, ref:'Client'},
 	});
 	profileSchema.plugin(soft_delete, { deletedAt : true, deletedBy : true });
 	profileSchema.plugin(updatedTimestamp);
@@ -98,7 +114,8 @@ db.once('open', function() {
 		profile: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Profile'
-		}
+		},
+		client: {type: mongoose.Schema.Types.ObjectId, ref:'Client'},
 	});
 	userSchema.plugin(soft_delete, { deletedAt : true, deletedBy : true });
 	userSchema.plugin(updatedTimestamp);
@@ -110,7 +127,9 @@ db.once('open', function() {
 		createdAt: { type: Date, default: Date.now },
 		updatedAt: { type: Date, default: Date.now },
 		key: String,
-		data: mongoose.Schema.Types.Mixed
+		active: Boolean,
+		data: mongoose.Schema.Types.Mixed,
+		client: {type: mongoose.Schema.Types.ObjectId, ref:'Client'},
 	});
 	configSchema.plugin(soft_delete, { deletedAt : true, deletedBy : true });
 	configSchema.plugin(updatedTimestamp);
