@@ -4,15 +4,15 @@ var db = require('../dbconfig.js')
 
 exports.identifyclient = function(ip, identifier, callback){
 
-	// console.log("At connect",id, identifier);
+	// console.log("At connect",ip, identifier);
 
 	if( !ip || !identifier){
 		callback({error:"Some information is missing."});
 	}else{
-		console.log(identifier);
-		db.Client.findOne({'identifier':identifier}, function(error, client){
-			console.log(error);
-			console.log(client);
+		// console.log(identifier);
+		db.Client.findOne({ identifier :identifier }, function(error, client){
+			// console.log(error);
+			// console.dir(client);
 			if(error || !client){
 				callback( {error:"Cannot find this Client"});
 			}else{

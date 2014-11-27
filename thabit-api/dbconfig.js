@@ -1,5 +1,5 @@
 
-var db_string= 'mongodb://meuservidor.com/thabit'
+var db_string= 'mongodb://thabit:thabit@dbserver.com/thabit'
   , mongoose = require('mongoose').connect(db_string)
   , db = mongoose.connection;
 
@@ -27,7 +27,7 @@ db.once('open', function() {
 	});
 	clientSchema.plugin(soft_delete, { deletedAt : true });
 	clientSchema.plugin(updatedTimestamp);
-	exports.Client = mongoose.model('Client', clientSchema);
+	exports.Client = mongoose.model('Client', clientSchema, 'client');
 	/* === FRAME ===*/
 	
 	var frameSchema = mongoose.Schema({
@@ -45,7 +45,7 @@ db.once('open', function() {
 	});
 	frameSchema.plugin(soft_delete, { deletedAt : true, deletedBy : true });
 	frameSchema.plugin(updatedTimestamp);
-	exports.Frame = mongoose.model('Frame', frameSchema);
+	exports.Frame = mongoose.model('Frame', frameSchema, 'frame');
 
 	/* === FIELD ===*/
 
@@ -61,7 +61,7 @@ db.once('open', function() {
 	});
 	fieldSchema.plugin(soft_delete, { deletedAt : true, deletedBy : true });
 	fieldSchema.plugin(updatedTimestamp);
-	exports.Field = mongoose.model('Field', fieldSchema);
+	exports.Field = mongoose.model('Field', fieldSchema, 'field');
 
 	/* === DATA ===*/
 
@@ -78,7 +78,7 @@ db.once('open', function() {
 	});
 	dataSchema.plugin(soft_delete, { deletedAt : true, deletedBy : true });
 	dataSchema.plugin(updatedTimestamp);
-	exports.Data = mongoose.model('Data', dataSchema);
+	exports.Data = mongoose.model('Data', dataSchema, 'data');
 
 	/* === PROFILE ===*/
 
@@ -98,7 +98,7 @@ db.once('open', function() {
 	});
 	profileSchema.plugin(soft_delete, { deletedAt : true, deletedBy : true });
 	profileSchema.plugin(updatedTimestamp);
-	exports.Profile = mongoose.model('Profile', profileSchema);
+	exports.Profile = mongoose.model('Profile', profileSchema, 'profile');
 
 	/* === USER ===*/
 
@@ -119,7 +119,7 @@ db.once('open', function() {
 	});
 	userSchema.plugin(soft_delete, { deletedAt : true, deletedBy : true });
 	userSchema.plugin(updatedTimestamp);
-	exports.User = mongoose.model('User', userSchema);
+	exports.User = mongoose.model('User', userSchema, 'user');
 
 	/* === SYSTEM CONFIGURATION ===*/
 
@@ -133,6 +133,6 @@ db.once('open', function() {
 	});
 	configSchema.plugin(soft_delete, { deletedAt : true, deletedBy : true });
 	configSchema.plugin(updatedTimestamp);
-	exports.Config = mongoose.model('Config', configSchema);
+	exports.Config = mongoose.model('Config', configSchema, 'config');
 
 });

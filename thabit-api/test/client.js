@@ -104,7 +104,7 @@ describe('Client', function(){
 
 			var body = {
 				'clientip': "127.0.0.1", 
-				'clientidentifier': 'tester'
+				'clientidentifier': 'local'
 			}
 			request(url)
 				.get('/client')
@@ -117,7 +117,7 @@ describe('Client', function(){
 						throw(err);
 					}
 
-					res.body.should.have.property('_id');
+					res.body.should.have.property('token');
 					// res.body.error.should.equal('Cannot find this Client');
 					done();
 				});

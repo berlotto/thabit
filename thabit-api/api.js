@@ -12,10 +12,11 @@ var app = require('./appconfig.js')
 app.use(function (req, res, next) {
   // console.log(req.path, req.headers);
 
-  // console.log("---------------------"+req.path);
-  if(req.path != '/client' && req.path != "/"){  
+  console.log("---------------------"+req.path+"------");
+  if( ! req.path.match( /\/{1}client*\/*|\/{1}/ ) ){  
+    console.log("Validating access-token...");
     if('access-token' in req.headers){
-
+      console.log("Have...");
       //Validate Access Token
 
       //if OK
@@ -28,6 +29,7 @@ app.use(function (req, res, next) {
 
     }
   }else{
+    console.log("Passando...");
     next();
   }
 

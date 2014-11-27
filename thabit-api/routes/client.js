@@ -6,6 +6,11 @@ var validator = require('validator');
 /* GET users listing. */
 router.get('/', function(req, res) {
 
+	/*
+	Identify the clients on the execution
+	return un atualized token
+	*/
+
 	var id = validator.trim(validator.escape(req.param('clientip')));
 	var idt = validator.trim(validator.escape(req.param('clientidentifier')));
 
@@ -16,5 +21,10 @@ router.get('/', function(req, res) {
     });
 });
 
+router.get('/config', function(req, res){
+
+
+
+});
 
 module.exports = router;
